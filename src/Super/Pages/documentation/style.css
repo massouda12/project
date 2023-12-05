@@ -1,0 +1,66 @@
+
+.Title {
+    line-height:1.5em;
+  }
+  .Title h4{
+    text-align:left;
+    padding-left: 20px;
+    margin-top: 25px;
+    font-size: 40px;
+    font-style: italic;
+  }
+  .events-control {
+    padding-top: 60px;
+    padding-left: 53px;
+    margin: 0 auto;
+    width: 30rem;
+    max-width: 80%;
+    font-size:20px;
+  }
+  .Title .btn {
+    font-size: 20px;
+    padding: 50px;
+    margin-left: 900px;
+    text-align: right;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border-radius: 12px;
+    background-color: #eec3ad;
+    color: white;
+    
+  }
+ .users {
+  display:block;
+  justify-content: start;
+  flex-direction: row;
+  color: 'color.text';
+  border-color: aqua;
+  background-color: aliceblue;
+  border-Style: solid;
+  border-Radius: 30px;
+  width:25%;
+  height:170px;
+  text-Align:center;
+  margin-right: 10px ;
+ }
+ .align {
+  display: flex;
+ }
+ .table .btn {
+  font-size: medium;
+  padding: 5px;
+  padding-right: 15px;
+  padding-left: 15px;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 12px;
+  background-color: #a39e9e;
+  color: white;
+ }
+ .table .btn:hover {
+  background-color: #ac91c8;
+ }
+ .table .icon {
+  margin-right: 10px;
+ }

@@ -1,0 +1,68 @@
+* {
+    box-sizing: border-box;
+  }
+  body {
+    background: #fce4ec !important;
+    min-height: 100vh;
+    display: flex;
+    font-weight: 400;
+    font-family: "Fira Sans", sans-serif;
+  }
+ 
+  
+  body,
+  html,
+  .App,
+  #root,
+  .auth-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+  .navbar-light {
+    background-color: #ffffff;
+    box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  }
+  
+  .auth-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    font-size: large;
+  }
+ 
+  
+  .auth-inner {
+    width: 550px;
+    margin: auto;
+    background: #ffffff;
+    box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+    transition: all 0.3s;
+  }
+  .auth-inner  input{
+   padding: 10px;
+   width: 400px;
+  }
+  .auth-inner  .select{
+    margin-top: 30px;
+    margin-left: 10px;
+    font-size: medium;
+   }
+   .auth-inner  .label{
+    font-size: large;
+   }
+  .auth-wrapper .form-control:focus {
+    border-color: #167bff;
+    box-shadow: none;
+  }
+  .auth-inner button {
+    font-size: 20px;
+    margin-top: 25px;
+    padding: 15px 20px ;
+    border-radius: 20px;
+    background-color:#fce4ec ;
+  }
+  
+  

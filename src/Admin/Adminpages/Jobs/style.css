@@ -1,0 +1,146 @@
+  .Title {
+    line-height:1.5em;
+  }
+  .Title h3{
+    text-align:left;
+    padding-left: 20px;
+    margin-top: 25px;
+    font-size: 60px;
+  }
+  .events-control {
+    padding-top: 60px;
+    padding-left: 53px;
+    margin: 0 auto;
+    width: 30rem;
+    max-width: 80%;
+    font-size:20px;
+  }
+  .Title .btn {
+    font-size: 20px;
+    padding: 20px;
+    margin-left: 900px;
+    text-align: right;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 12px;
+    background-color: #eec3ad;
+    color: white;
+    
+  }
+  .Title .events__list {
+    list-style: none;
+    padding-left: 55px;
+    
+  }
+  
+  .events__list-item {
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid #5101d1;
+  }
+  .Title .icon {
+    font-size: 30px;
+    padding-top: 10px;
+    margin-left: 5px;
+  }
+  article * {
+    margin: 0;
+  }
+  
+  .article-container  h3 {
+    font-size: 1.3em;
+    margin-bottom: 0.1em;
+    line-height: 1.24;
+    padding-top: 20px;
+    padding-left:20px;
+  }
+  .article-container .btns {
+    margin-left: 100px;
+  }
+  .article-container .btn {
+    font-size: large;
+    padding-left: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 30px;
+    border-radius: 10px;
+    background-color:lightblue;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .grid-container {
+    padding: 1rem;
+    margin: 0 auto;
+    max-width: 1000px;
+    border-radius: 30px;
+    border: 1px solid lightblue;
+    background-color: white;
+    margin-top: 40px;
+    margin-left: 10px;
+  }
+  
+  .article-container {
+    container: article / inline-size;
+  }
+  
+  article {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+  }
+  
+  @container article (inline-size > 500px) {
+    article {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+  
+  @container article (inline-size > 800px) {
+    article {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      font-size: 1.2rem;
+    }
+  
+    h3 {
+      font-size: 2rem;
+    }
+  }
+  /* Initial styles for single column layout */
+  .grid {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  @container layout (inline-size > 800px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    /* The featured article should span two columns */
+    .article-container:first-child {
+      grid-column: span 2;
+    }
+  }
+  
+  @container layout (inline-size > 1000px) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  
+    .article-container:first-child {
+      grid-column: span 4;
+    }
+  
+    .article-container:nth-child(2),
+    .article-container:nth-child(3) {
+      grid-column: span 2;
+    }
+  }
+  
