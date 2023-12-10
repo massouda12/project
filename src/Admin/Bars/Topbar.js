@@ -1,9 +1,12 @@
 import { AppBar, Icon, Toolbar, Typography } from "@mui/material";
 import colorAdmin from "../Configsadmin/colorConfigs";
 import sizeConfigs from "../Configsadmin/sizeConfigs";
-import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@atlaskit/icon/glyph/home';
-
+import LogoutIcon from '@mui/icons-material/Logout';
+const logOut = () => {
+  window.localStorage.clear();
+  window.location.href = "/";
+};
 const Topbar = () => {
   return (
     <AppBar
@@ -25,6 +28,7 @@ const Topbar = () => {
          Job Offer
         </Typography>
         <Typography  paddingLeft="1200px">
+          <LogoutIcon onClick={logOut} /> 
         </Typography>
       </Toolbar>
     </AppBar>

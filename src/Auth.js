@@ -1,49 +1,50 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './Auth.css'
+import axios from 'axios';
 import assets from "./assets" 
-import authContext from './Super/Pages/context/auth-context';
 import { Link,NavLink } from "react-router-dom";
 import {
   FacebookLoginButton,
   InstagramLoginButton
 } from "react-social-login-buttons";
-class AuthPage extends Component {
-    state = {
-      isLogin: true
-    }
-    static contextType = authContext;
-    constructor(props) {
-        super(props);
-        this.emailEl = React.createRef();
-        this.passwordEl = React.createRef();
-      }
+export default function AuthPage() {
+
+    // state = {
+    //   isLogin: true
+    // }
+    // static contextType = authContext;
+    // constructor(props) {
+    //     super(props);
+    //     this.emailEl = React.createRef();
+    //     this.passwordEl = React.createRef();
+    //   }
     
-      switchModeHandler = () => {
-        this.setState(prevState => {
-          return { isLogin: !prevState.isLogin };
-        });
-      };
+    //   switchModeHandler = () => {
+    //     this.setState(prevState => {
+    //       return { isLogin: !prevState.isLogin };
+    //     });
+    //   };
     
-      submitHandler = event => {
-        event.preventDefault();
-        const email = this.emailEl.current.value;
-        const password = this.passwordEl.current.value;
+    //   submitHandler = event => {
+    //     event.preventDefault();
+    //     const email = this.emailEl.current.value;
+    //     const password = this.passwordEl.current.value;
     
-        if (email.trim().length === 0 || password.trim().length === 0) {
-          return;
-        }
+    //     if (email.trim().length === 0 || password.trim().length === 0) {
+    //       return;
+    //     }
     
-        let requestBody = {
-          query: `
-            query {
-              login(email: "${email}", password: "${password}") {
-                userId
-                token
-                tokenExpiration
-              }
-            }
-          `
-        };
+    //     let requestBody = {
+    //       query: `
+    //         query {
+    //           login(email: "${email}", password: "${password}") {
+    //             userId
+    //             token
+    //             tokenExpiration
+    //           }
+    //         }
+    //       `
+    //     };
     
         // if (!this.state.isLogin) {
         //   requestBody = {
@@ -58,34 +59,66 @@ class AuthPage extends Component {
         //   };
         // }
     
-        fetch('http://localhost:8000/graphql', {
-          method: 'POST',
-          body: JSON.stringify(requestBody),
+      //   fetch('http://localhost:8000/graphql', {
+      //     method: 'POST',
+      //     body: JSON.stringify(requestBody),
+      //     headers: {
+      //       'Content-Type': 'application/json'
+      //     }
+      //   })
+      //     .then(res => {
+      //       if (res.status !== 200 && res.status !== 201) {
+      //         throw new Error('Failed!');
+      //       }
+      //       return res.json();
+      //     })
+      //     .then(resData => {
+      //       if (resData.data.login.token) {
+      //         this.context.login(
+      //           resData.data.login.token,
+      //           resData.data.login.userId,
+      //           resData.data.login.tokenExpiration
+      //         );
+      //       }
+      //     })
+      //     .catch(err => {
+      //       console.log(err);
+      //     });
+      // };
+      const [email, setEmail] = useState("");
+      const [password, setPassword] = useState("");
+      const [enabled,setEnabled] = useState(true);
+    
+      function handleSubmit(e) {
+        e.preventDefault();
+    
+        console.log(email, password,enabled);
+        axios.post("http://localhost:5000/login-user", {
+          email,
+          password,
+          enabled,
+        }, {
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Origin": "*",
           }
         })
-          .then(res => {
-            if (res.status !== 200 && res.status !== 201) {
-              throw new Error('Failed!');
-            }
-            return res.json();
-          })
-          .then(resData => {
-            if (resData.data.login.token) {
-              this.context.login(
-                resData.data.login.token,
-                resData.data.login.userId,
-                resData.data.login.tokenExpiration
-              );
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      };
-    
-      render() {
+        .then((response) => {
+          console.log(response.data, "userRegister");
+          const data = response.data;
+          
+          if (data.status === "ok") {
+            alert("login successful");
+            window.localStorage.setItem("token", data.data);
+            window.localStorage.setItem("loggedIn", true);
+            window.location.href = "/userDetails";
+          }
+        })
+        .catch((error) => {
+          console.error("An error occurred:", error);
+        });
+    }
         return (
         <div className="App">
     <div className="appAside" >
@@ -111,7 +144,7 @@ class AuthPage extends Component {
           Sign Up
         </NavLink>
     <div className="formCenter">
-    <form className="formFields" onSubmit={this.submitHandler} >
+    <form className="formFields" onSubmit={handleSubmit} >
       <div className="formField">
         <label className="formFieldLabel" htmlFor="email">
           E-Mail Address
@@ -122,7 +155,8 @@ class AuthPage extends Component {
           className="formFieldInput"
           placeholder="Enter your email"
           name="email"
-          ref={this.emailEl}
+          onChange={(e) => setEmail(e.target.value)}
+
         />
       </div>
 
@@ -136,7 +170,7 @@ class AuthPage extends Component {
           className="formFieldInput"
           placeholder="Enter your password"
           name="password"
-          ref={this.passwordEl}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
 
@@ -163,6 +197,5 @@ class AuthPage extends Component {
   </div>
         );
       }
-    }
     
-    export default AuthPage;
+    

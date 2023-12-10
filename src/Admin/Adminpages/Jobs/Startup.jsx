@@ -1,65 +1,86 @@
-import React ,{Component} from 'react';
-import Backdrop from '../../../components/Backdrop/Backdrop';
-import Modal from '../../../components/Modal/Modal';
+import React ,{Component,useEffect, useState,useRef} from 'react';
 import './style.css'
 import {Link} from 'react-router-dom'
 import AddIcon from '@mui/icons-material/Add';
 import Avatar from '@atlaskit/avatar';
 import Heading from '@atlaskit/heading';
-import { AtlassianIcon } from '@atlaskit/logo';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Lozenge from '@atlaskit/lozenge';
 import TrashIcon from '@atlaskit/icon/glyph/trash'
 import EditFilledIcon from '@atlaskit/icon/glyph/edit-filled'
 import { Box, Inline, Stack, Text, xcss } from '@atlaskit/primitives';
-class Jobs extends Component {
-  state = {
-    creating: false,
-    events: []
+export default function Jobs() {
+  const [userData, setUserData] = useState("");
+  const [data, setData] = useState([]);
+  const [limit,setLimit]=useState(5);
+  const [pageCount,setPageCount]=useState(1);
+  const currentPage=useRef();
+  const [admin, setAdmin] = useState(false);
+  useEffect(() => {
+    currentPage.current=1;
+    // getAllUser();
+    getPaginatedUsers();
+  }, []);
+  const getAllUser = () => {
+    fetch("http://localhost:5000/getAllJob", {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "Job");
+        setData(data.data);
+      });
   };
-  modalCancelHandler = () => {
-    this.setState({ creating: false });
-  };
-  startCreateEventHandler = () => {
-    this.setState({ creating: true });
-  };
-  render() {
+
+
+  function getPaginatedUsers(){
+    fetch(`http://localhost:5000/paginateJobs?page=${currentPage.current}&limit=${limit}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "Jobs");
+        setPageCount(data.pageCount);
+        setData(data.result)
+      });
+    
+  }
+
+
+  useEffect(() => {
+    fetch("http://localhost:5000/jobData", {
+      method: "POST",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        token: window.localStorage.getItem("token"),
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "jobData");
+        if (data.data.userType == "Admin") {
+          setAdmin(true);
+          setUserData(data.data);
+
+        } else {
+          setAdmin(false);
+          setUserData(data.data)
+        }
+        if (data.data == "token expired") {
+          alert("Token expired login again");
+          window.localStorage.clear();
+          window.location.href = "./";
+        }
+      });
+  }, []);
     return (
       <React.Fragment>
-      {this.state.creating && <Backdrop />}
-        {this.state.creating && (
-          <Modal
-            title="Add Event"
-            canCancel
-            canConfirm
-            onCancel={this.modalCancelHandler}
-            onConfirm={this.modalConfirmHandler}
-          >
-            <form >
-              <div className="form-control">
-                <label htmlFor="title" style={Styles.label}>Title</label>
-                <input type="text" id="title" style={Styles.input} ref={this.titleElRef} placeholder='Title'/>
-              </div>
-              <div className="form-control">
-                <label htmlFor="price" style={Styles.label}> Price</label>
-                <input type="number" id="price" style={Styles.input} ref={this.priceElRef} placeholder='Price' />
-              </div>
-              <div className="form-control">
-                <label htmlFor="date"style={Styles.label}>Date</label>
-                <input type="datetime-local" style={Styles.input} id="date" ref={this.dateElRef} />
-              </div>
-              <div className="form-control">
-                <label htmlFor="description"style={Styles.label}>Description</label>
-                <textarea
-                  id="description"
-                  rows="4"
-                  ref={this.descriptionElRef}
-                  style={Styles.input}
-                  placeholder='Description'
-                />
-              </div>
-            </form>
-          </Modal>
-          )}
           <div className='Title'>
             <h3>Jobs Created
             <Link to="/admin/addjobs">
@@ -70,17 +91,23 @@ class Jobs extends Component {
             </Link>
             </h3>
         </div>
+        {data.map((userData) => {
+            return (
         <Stack xcss={containerStyles} space="space.100">
       <Box as="span">
-        <Lozenge appearance="new">Ingéniuere Génie Logicielle</Lozenge>
+        <Lozenge appearance="new">{userData.role}</Lozenge>
       </Box>
       <Text as="span" >
-        Sofracom
+      {userData.title}
       </Text>
       <Box xcss={extraInfoStyles}>
         <Box xcss={inlineStyles}>
-          <AtlassianIcon appearance="brand" size="small" label="" />
-          <Heading level="h300">Salaire : 2000DT</Heading>
+          <AttachMoneyIcon appearance="brand" size="small" label="" />
+          <Heading level="h300">{userData.salary} DT</Heading>
+        </Box>
+        <Box xcss={inlineStyles2}>
+          <AccessTimeIcon appearance="brand" size="small" label="" />
+          <Heading level="h300">{userData.hours} Heures</Heading>
         </Box>
         <Inline space="space.100" alignBlock="center">
           <EditFilledIcon size='medium' />
@@ -89,10 +116,11 @@ class Jobs extends Component {
         </Inline>
       </Box>
     </Stack>
-          </React.Fragment>
+            )})}
+    </React.Fragment>
     );
   }
-}
+
 const Styles = {
   label: {
     display: 'block',
@@ -130,10 +158,13 @@ const inlineStyles = xcss({
   display: 'flex',
   alignItems: 'center',
 });
-
+const inlineStyles2 = xcss({
+  display: 'flex',
+  alignItems: 'center',
+  paddingRight:'880px'
+});
 const extraInfoStyles = xcss({
   display: 'flex',
   justifyContent: 'space-between',
   paddingBlock: 'space.050',
 });
-export default Jobs;

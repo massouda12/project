@@ -1,0 +1,16 @@
+.Title {
+    line-height:1.5em;
+    padding-bottom: 20px;
+  }
+  .Title h4{
+    text-align:center;
+    padding-left: 20px;
+    margin-top: 25px;
+    font-size: 60px;
+  }
+  .Card {
+    display: flex;
+    padding-left: 100px;
+    width: 1000px;
+    padding-top: 100px;
+  }

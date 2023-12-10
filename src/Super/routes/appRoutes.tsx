@@ -1,12 +1,13 @@
-import HomePage from "../Pages/home/HomePage";
 import { RouteType } from "./config";
 import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import HomeIcon from '@mui/icons-material/Home';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import Startup from "../Pages/installation/Startup";
-import Usersuperadmin from "../Pages/documentation/Usersuperadmin";
+import Usersuperadmin from "../Pages/Home/Usersuperadmin";
 import PeopleIcon from '@mui/icons-material/People';
+import UserDetails from "../../userDetails";
+
 const appRoutes: RouteType[] = [
   {
     path:"/main",

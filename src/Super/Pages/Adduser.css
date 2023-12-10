@@ -37,13 +37,12 @@
     margin: auto;
     background: #ffffff;
     box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
-    padding: 40px 55px 45px 55px;
     border-radius: 15px;
     transition: all 0.3s;
   }
   .auth-inner  input{
    padding: 10px;
-   width: 400px;
+   width: 350px;
   }
   .auth-inner  .select{
     margin-top: 30px;
@@ -51,17 +50,18 @@
     font-size: medium;
    }
    .auth-inner  .label{
-    font-size: large;
+    font-size: medium;
+    padding-top: 20px;
    }
   .auth-wrapper .form-control:focus {
     border-color: #167bff;
     box-shadow: none;
   }
   .auth-inner button {
-    font-size: 20px;
-    margin-top: 25px;
+    font-size: 15px;
+    margin-top: 20px;
     padding: 15px 20px ;
-    border-radius: 20px;
+    border-radius: 15px;
     background-color:#fce4ec ;
   }
   

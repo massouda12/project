@@ -1,79 +1,112 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './Auth.css'
 import assets from './assets';
-import authContext from './Super/Pages/context/auth-context';
 import { Link } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
-class SignUp extends Component {
-    state = {
-      isLogin: null
-    }
-    static contextType = authContext;
-    constructor(props) {
-        super(props);
-        this.emailEl = React.createRef();
-        this.passwordEl = React.createRef();
-      }
+export default function SignUp()  {
+    // state = {
+    //   isLogin: null
+    // }
+    // static contextType = authContext;
+    // constructor(props) {
+    //     super(props);
+    //     this.emailEl = React.createRef();
+    //     this.passwordEl = React.createRef();
+    //   }
     
-      switchModeHandler = () => {
-        this.setState(prevState => {
-          return { isLogin: !prevState.isLogin };
-        });
-      };
+    //   switchModeHandler = () => {
+    //     this.setState(prevState => {
+    //       return { isLogin: !prevState.isLogin };
+    //     });
+    //   };
     
-      submitHandler = event => {
-        event.preventDefault();
-        const email = this.emailEl.current.value;
-        const password = this.passwordEl.current.value;
+    //   submitHandler = event => {
+    //     event.preventDefault();
+    //     const email = this.emailEl.current.value;
+    //     const password = this.passwordEl.current.value;
     
-        if (email.trim().length === 0 || password.trim().length === 0) {
-          return;
-        }
+    //     if (email.trim().length === 0 || password.trim().length === 0) {
+    //       return;
+    //     }
     
-        let requestBody = {
-          query: `
-          mutation {
-            createUser(userInput:{email:"saif@gmail.com",password:"saif"}) {
-             email
-             _id
-            }
-          }
-          `
-        };
+    //     let requestBody = {
+    //       query: `
+    //       mutation {
+    //         createUser(userInput:{email:"saif@gmail.com",password:"saif"}) {
+    //          email
+    //          _id
+    //         }
+    //       }
+    //       `
+    //     };
     
-        // if (!this.state.isLogin) {
-        //   requestBody = {
-        //     query: `
-        //       mutation {
-        //         createUser(userInput: {email: "${email}", password: "${password}"}) {
-        //           _id
-        //           email
-        //         }
-        //       }
-        //     `
-        //   };
-        // }
+    //     // if (!this.state.isLogin) {
+    //     //   requestBody = {
+    //     //     query: `
+    //     //       mutation {
+    //     //         createUser(userInput: {email: "${email}", password: "${password}"}) {
+    //     //           _id
+    //     //           email
+    //     //         }
+    //     //       }
+    //     //     `
+    //     //   };
+    //     // }
     
-        fetch('http://localhost:8000/graphql', {
-          method: 'POST',
-          body: JSON.stringify(requestBody),
+    //     fetch('http://localhost:8000/graphql', {
+    //       method: 'POST',
+    //       body: JSON.stringify(requestBody),
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       }
+    //     })
+    //       .then(res => {
+    //         if (res.status !== 200 && res.status !== 201) {
+    //           throw new Error('Failed!');
+    //         }
+    //         return res.json();
+    //       })
+    //       .catch(err => {
+    //         console.log(err);
+    //       });
+    //   };
+    const [name, setLname] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [userType, setUserType] = useState("User");
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(name, email, password);
+        fetch("http://localhost:5000/register", {
+          method: "POST",
+          crossDomain: true,
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+            userType,
+          }),
         })
-          .then(res => {
-            if (res.status !== 200 && res.status !== 201) {
-              throw new Error('Failed!');
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data, "userRegister");
+            if (data.status == "ok") {
+              alert("Registration Successful");
+              window.location.href = "/";
+            } else {
+              alert("Something went wrong");
             }
-            return res.json();
-          })
-          .catch(err => {
-            console.log(err);
           });
-      };
-    
-      render() {
+      
+    };
+  
+
+
         return (
         <div className="App">
         <div className="appAside" >
@@ -82,7 +115,7 @@ class SignUp extends Component {
         </div>
         <div className='appForm'>          
       <div className="formCenter">
-            <form onSubmit={this.handleSubmit} className="formFields">
+            <form onSubmit={handleSubmit} className="formFields">
               <div className="formField">
                 <label className="formFieldLabel" htmlFor="name">
                   Full Name
@@ -93,8 +126,7 @@ class SignUp extends Component {
                   className="formFieldInput"
                   placeholder="Enter your full name"
                   name="name"
-                  value={this.state.name}
-                  onChange={this.handleChange}
+                  onChange={(e) => setLname(e.target.value)}
                 />
               </div>
               <div className="formField">
@@ -107,8 +139,7 @@ class SignUp extends Component {
                   className="formFieldInput"
                   placeholder="Enter your email"
                   name="email"
-                  value={this.state.email}
-                  onChange={this.handleChange}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="formField">
@@ -121,8 +152,8 @@ class SignUp extends Component {
                   className="formFieldInput"
                   placeholder="Enter your password"
                   name="password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
+                  onChange={(e) => setPassword(e.target.value)}
+
                 />
               </div>
               <div className="formField">
@@ -131,8 +162,7 @@ class SignUp extends Component {
                     className="formFieldCheckbox"
                     type="checkbox"
                     name="hasAgreed"
-                    value={this.state.hasAgreed}
-                    onChange={this.handleChange}
+                    
                   />{" "}
                   I agree all statements in{" "}
                   <a href="null" className="formFieldTermsLink">
@@ -153,6 +183,5 @@ class SignUp extends Component {
           </div>
         );
       }
-    }
+
    
-    export default SignUp;

@@ -6,6 +6,7 @@ import Jobs from "../Adminpages/Jobs/Startup";
 import Users from "../Adminpages/documentation/Usersuperadmin";
 import PeopleIcon from '@mui/icons-material/People';
 
+
 const adminRoutes: RouteType[] = [
 
   {
@@ -18,12 +19,21 @@ const adminRoutes: RouteType[] = [
     },
   },
   {
-    path: "/admin/Statistics",
+    path: "admin/Statistics",
     element: <Statistics />,
     state: "Statistics",
     sidebarProps: {
       displayText: "Statistics",
       icon: <AnalyticsIcon />
+    },
+  },
+  {
+    path:"",
+    element: <Jobs/>,
+    state: "StartUp",
+    sidebarProps: {
+      displayText: "StartUps",
+      icon: <ApartmentIcon />
     },
   },
 

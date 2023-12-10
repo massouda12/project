@@ -19,15 +19,6 @@ const userRoutes: RouteType[] = [
   },
   
   {
-    path: "/user/User",
-    element: <Users />,
-    state: "Users",
-    sidebarProps: {
-      displayText: "Users",
-      icon: <PeopleIcon />
-    },
-  },
-  {
     path: "/user/Statistics",
     element: <Statistics />,
     state: "Statistics",

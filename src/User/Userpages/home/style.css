@@ -1,0 +1,19 @@
+
+.Title {
+    line-height:1.5em;
+  }
+  .Title h4{
+    text-align:center;
+    padding-left: 20px;
+    font-size: 60px;
+  }
+  .Card {
+    display: flex;
+    padding-left: 100px;
+    width: 1000px;
+    padding-top: 10px;
+  }
+  .btn button:hover {
+   background-color:red;
+  }
+  
